@@ -7,7 +7,15 @@ const config = {
     { name: "Prayer At The Mosque", xp: 10, category: "Tasks" },
   ],
   xpThresholds: [100, 300, 600, 1000], // XP required for each rank
-  rankingNames: ["Master", "Grand Master", "Epic", "Legend", "Mythic"], // Rank names
+  rankingNames: ["Beginner", "Master", "Grand Master", "Epic", "Legend", "Mythic"], // Rank names
+  rankImages: {
+    1: "assets/rank-beginner.png",
+    2: "assets/rank-master.png",
+    3: "assets/rank-grandmaster.png",
+    4: "assets/rank-epic.png",
+    5: "assets/rank-legend.png",
+    6: "assets/rank-mythic.png",
+  },
   badges: [
     { name: "Book Master", section: "Book", completed: false },
     { name: "Quran Master", section: "Quran", completed: false },
@@ -26,6 +34,7 @@ let userProfile = JSON.parse(localStorage.getItem('USER_PROFILE')) || {
 const profileImage = document.getElementById('profile-image');
 const profileName = document.getElementById('profile-name');
 const profileRank = document.getElementById('profile-rank');
+const rankImage = document.getElementById('rank-image');
 const xpBar = document.getElementById('xp-bar');
 const xpText = document.getElementById('xp-text');
 const taskList = document.getElementById('task-list');
@@ -73,7 +82,55 @@ function loadProfile() {
   profileName.textContent = userProfile.name;
   profileImage.src = userProfile.photo;
   profileRank.textContent = config.rankingNames[xpData.level - 1] || "Beginner";
+  rankImage.src = config.rankImages[xpData.level] || "assets/rank-beginner.png"; // Update rank image
   updateXPBar();
+}
+
+// Update Profile
+function updateProfile() {
+  const newName = document.getElementById('new-name').value;
+  const profilePhotoInput = document.getElementById('profile-photo');
+
+  if (newName) {
+    userProfile.name = newName;
+  }
+
+  if (profilePhotoInput.files && profilePhotoInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      userProfile.photo = e.target.result;
+      localStorage.setItem('USER_PROFILE', JSON.stringify(userProfile));
+      loadProfile(); // Reload profile to reflect changes
+
+      // Clear input fields after photo is uploaded
+      document.getElementById('new-name').value = ''; // Clear name input
+      profilePhotoInput.value = ''; // Clear file input
+
+      // Show success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Profile Updated!',
+        text: 'Your profile has been updated successfully.',
+        confirmButtonText: 'OK',
+      });
+    };
+    reader.readAsDataURL(profilePhotoInput.files[0]);
+  } else {
+    localStorage.setItem('USER_PROFILE', JSON.stringify(userProfile));
+    loadProfile(); // Reload profile to reflect changes
+
+    // Clear input fields even if no photo is uploaded
+    document.getElementById('new-name').value = ''; // Clear name input
+    profilePhotoInput.value = ''; // Clear file input
+
+    // Show success message using SweetAlert
+    Swal.fire({
+      icon: 'success',
+      title: 'Profile Updated!',
+      text: 'Your profile has been updated successfully.',
+      confirmButtonText: 'OK',
+    });
+  }
 }
 
 // Complete Task
@@ -95,7 +152,12 @@ function completeTask(index) {
   if (xpData.current >= xpThreshold) {
     xpData.level += 1;
     xpData.current = 0;
-    alert(`Level Up! You are now Level ${xpData.level}`);
+    Swal.fire({
+      icon: 'success',
+      title: 'Level Up!',
+      text: `You are now Level ${xpData.level}`,
+      confirmButtonText: 'OK',
+    });
   }
 
   // Save to localStorage
@@ -166,7 +228,14 @@ function updateXPBar() {
 function resetCompletedTasks() {
   localStorage.setItem('completedTasks', JSON.stringify([])); // Clear completed tasks
   loadCompletedTasks(); // Reload the UI
-  alert('Completed tasks have been reset!');
+
+  // Show success message using SweetAlert
+  Swal.fire({
+    icon: 'success',
+    title: 'Tasks Reset!',
+    text: 'Completed tasks have been reset.',
+    confirmButtonText: 'OK',
+  });
 }
 
 // Daily Reset Logic
