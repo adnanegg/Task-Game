@@ -7,9 +7,9 @@ const config = {
     { name: "Prayer At The Mosque", xp: 10, category: "Tasks" },
   ],
   xpThresholds: [100, 300, 600, 1000], // XP required for each rank
-  rankingNames: ["Beginner", "Master", "Grand Master", "Epic", "Legend", "Mythic"], // Rank names
+  rankingNames: ["Warrior", "Master", "Grand Master", "Epic", "Legend", "Mythic"], // Rank names
   rankImages: {
-    1: "assets/rank-beginner.png",
+    1: "assets/rank-warrior.png",
     2: "assets/rank-master.png",
     3: "assets/rank-grandmaster.png",
     4: "assets/rank-epic.png",
@@ -29,6 +29,10 @@ let userProfile = JSON.parse(localStorage.getItem('USER_PROFILE')) || {
   name: "User",
   photo: "assets/default-profile.png",
 };
+
+// Load tasks and completed tasks from localStorage
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [...config.tasks];
+let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
 
 // DOM Elements
 const profileImage = document.getElementById('profile-image');
@@ -50,7 +54,7 @@ setupDailyReset();
 // Load Tasks
 function loadTasks() {
   taskList.innerHTML = '';
-  config.tasks.forEach((task, index) => {
+  tasks.forEach((task, index) => {
     const taskItem = document.createElement('div');
     taskItem.className = 'flex justify-between items-center p-2 border-b';
     taskItem.innerHTML = `
@@ -63,7 +67,6 @@ function loadTasks() {
 
 // Load Completed Tasks
 function loadCompletedTasks() {
-  const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
   completedTaskList.innerHTML = '';
   completedTasks.forEach((task, index) => {
     const taskItem = document.createElement('div');
@@ -135,10 +138,6 @@ function updateProfile() {
 
 // Complete Task
 function completeTask(index) {
-  const tasks = config.tasks;
-  const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
-
-  // Move the correct task to the completed list
   const completedTask = tasks[index];
   completedTasks.push(completedTask);
   tasks.splice(index, 1);
@@ -161,11 +160,11 @@ function completeTask(index) {
   }
 
   // Save to localStorage
+  localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   localStorage.setItem('xp', JSON.stringify(xpData));
 
   // Reload UI
-  loadProfile();
   loadTasks();
   loadCompletedTasks();
   updateXPBar();
@@ -173,24 +172,21 @@ function completeTask(index) {
 
 // Undo Task
 function undoTask(index) {
-  const tasks = config.tasks;
-  const completedTasks = JSON.parse(localStorage.getItem('completedTasks'));
-
-  // Move task back to tasks list
-  tasks.push(completedTasks[index]);
+  const task = completedTasks[index];
+  tasks.push(task);
   completedTasks.splice(index, 1);
 
   // Update XP
   const xpData = JSON.parse(localStorage.getItem('xp'));
-  xpData.current -= tasks[tasks.length - 1].xp;
+  xpData.current -= task.xp;
   if (xpData.current < 0) xpData.current = 0;
 
   // Save to localStorage
+  localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   localStorage.setItem('xp', JSON.stringify(xpData));
 
   // Reload UI
-  loadProfile();
   loadTasks();
   loadCompletedTasks();
   updateXPBar();
@@ -226,7 +222,8 @@ function updateXPBar() {
 
 // Reset Completed Tasks
 function resetCompletedTasks() {
-  localStorage.setItem('completedTasks', JSON.stringify([])); // Clear completed tasks
+  completedTasks = []; // Clear completed tasks
+  localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   loadCompletedTasks(); // Reload the UI
 
   // Show success message using SweetAlert
@@ -252,15 +249,22 @@ function setupDailyReset() {
 
   // Check if it's time to reset
   if (!lastReset || now >= nextReset) {
-    localStorage.setItem('completedTasks', JSON.stringify([])); // Clear completed tasks
+    tasks = [...config.tasks]; // Reset tasks to initial state
+    completedTasks = []; // Clear completed tasks
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
     localStorage.setItem('lastReset', nextReset.toISOString()); // Save the reset time
   }
 
   // Schedule the next reset
   const timeUntilReset = nextReset - now;
   setTimeout(() => {
-    localStorage.setItem('completedTasks', JSON.stringify([])); // Clear completed tasks
+    tasks = [...config.tasks]; // Reset tasks to initial state
+    completedTasks = []; // Clear completed tasks
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
     localStorage.setItem('lastReset', nextReset.toISOString()); // Save the reset time
+    loadTasks(); // Reload the UI
     loadCompletedTasks(); // Reload the UI
     setupDailyReset(); // Schedule the next reset
   }, timeUntilReset);
