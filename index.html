@@ -4,41 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gamified Task Manager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-  <div class="container mx-auto p-4">
+  <!-- Side Panel -->
+  <div class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg p-4">
+    <h2 class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200">Menu</h2>
+    <ul>
+      <li class="mb-4">
+        <a href="index.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">🏠</span> Home
+        </a>
+      </li>
+      <li class="mb-4">
+        <a href="profile.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">👤</span> Profile
+        </a>
+      </li>
+      <li class="mb-4">
+        <a href="badges.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">🎖️</span> Badges
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="ml-64 p-6">
     <!-- Dark Mode Toggle -->
-    <button id="dark-mode-toggle" class="fixed top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+    <button id="dark-mode-toggle" class="fixed top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-lg">
       🌓
     </button>
 
     <!-- Profile Section -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
-      <h1 class="text-2xl font-bold">Profile</h1>
-      <p><span class="font-semibold">Name:</span> <span id="profile-name">User</span></p>
-      <p><span class="font-semibold">Rank:</span> <span id="profile-rank">Beginner</span></p>
-      <p><span class="font-semibold">Badges:</span> <span id="profile-badges">None</span></p>
-      <div class="mt-4">
-        <p class="font-semibold">XP Progress:</p>
-        <div class="w-full bg-gray-200 rounded-full h-4 relative">
-          <div id="xp-bar" class="bg-blue-500 h-4 rounded-full" style="width: 0%;"></div>
-          <span id="xp-text" class="absolute inset-0 flex items-center justify-center text-sm text-white">0/100 XP</span>
+    <div class="bg-blue-50 dark:bg-blue-900 p-8 rounded-lg shadow-md mb-6 text-center">
+      <div class="flex flex-col items-center mb-6">
+        <img id="profile-image" src="assets/default-profile.png" alt="Profile" class="w-24 h-24 rounded-full border-4 border-blue-500 mb-4">
+        <h1 class="text-3xl font-bold" id="profile-name">User</h1>
+      </div>
+      <p class="text-gray-600 dark:text-gray-400 text-xl"><span class="font-semibold">Rank:</span> <span id="profile-rank">Beginner</span></p>
+      <div class="mt-6">
+        <p class="font-semibold text-gray-700 dark:text-gray-300 text-xl">XP Progress</p>
+        <div class="w-full bg-gray-200 rounded-full h-6 relative mt-2 overflow-hidden">
+          <div id="xp-bar" class="bg-blue-500 h-6 rounded-full transition-all duration-500 ease-in-out water-effect" style="width: 0%;"></div>
+          <span id="xp-text" class="absolute inset-0 flex items-center justify-center text-lg text-white">0/100 XP</span>
         </div>
       </div>
     </div>
 
     <!-- Task Section -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold mb-4">Daily Tasks</h2>
+    <div class="bg-green-50 dark:bg-green-900 p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Daily Tasks</h2>
       <div id="task-list" class="mb-4">
         <!-- Tasks will be dynamically added here -->
       </div>
-      <h2 class="text-2xl font-bold mb-4">Today's Completed Tasks</h2>
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Today's Completed Tasks</h2>
       <div id="completed-task-list">
         <!-- Completed tasks will be dynamically added here -->
       </div>
+      <button onclick="resetCompletedTasks()" class="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors mt-4">Reset Completed Tasks</button>
     </div>
   </div>
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badges</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+  <!-- Side Panel -->
+  <div class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg p-4">
+    <h2 class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200">Menu</h2>
+    <ul>
+      <li class="mb-4">
+        <a href="index.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">🏠</span> Home
+        </a>
+      </li>
+      <li class="mb-4">
+        <a href="profile.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">👤</span> Profile
+        </a>
+      </li>
+      <li class="mb-4">
+        <a href="badges.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">🎖️</span> Badges
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="ml-64 p-6">
+    <h1 class="text-3xl font-bold mb-6">Badges</h1>
+
+    <!-- Badges Sections -->
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Book</h2>
+        <div id="book-badges"></div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Quran</h2>
+        <div id="quran-badges"></div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow

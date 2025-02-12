@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+  <!-- Side Panel -->
+  <div class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg p-4">
+    <h2 class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200">Menu</h2>
+    <ul>
+      <li class="mb-4">
+        <a href="index.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">🏠</span> Home
+        </a>
+      </li>
+      <li class="mb-4">
+        <a href="profile.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">👤</span> Profile
+        </a>
+      </li>
+      <li class="mb-4">
+        <a href="badges.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+          <span class="mr-2">🎖️</span> Badges
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="ml-64 p-6">
+    <h1 class="text-3xl font-bold mb-6">Update Profile</h1>
+
+    <!-- Profile Update Form -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      <div class="mb-4">
+        <label for="new-name" class="block font-semibold text-gray-700 dark:text-gray-300">Name:</label>
+        <input type="text" id="new-name" placeholder="Enter your name" class="p-2 border rounded w-full mt-1 dark:bg-gray-700 dark:text-gray-200">
+      </div>
+      <div class="mb-4">
+        <label for="profile-photo" class="block font-semibold text-gray-700 dark:text-gray-300">Profile Photo:</label>
+        <input type="file" id="profile-photo" accept="image/*" class="p-2 border rounded w-full mt-1 dark:bg-gray-700 dark:text-gray-200">
+      </div>
+      <button onclick="updateProfile()" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Update Profile</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

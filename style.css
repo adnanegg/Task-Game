@@ -1,0 +1,36 @@
+Custom styles
+body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  h1, h2, h3 {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Water effect for XP bar */
+  /* .water-effect {
+    background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .water-effect::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
+    background-size: 20px 20px;
+    animation: water-wave 3s infinite linear;
+  }
+  
+  @keyframes water-wave {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(20px, 20px);
+    }
+  }  */
