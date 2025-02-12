@@ -1,10 +1,10 @@
 // Hardcoded configuration
 const config = {
   tasks: [
-    { name: "Book", xp: 10, category: "Tasks" },
-    { name: "Quran", xp: 10, category: "Tasks" },
-    { name: "Sport", xp: 10, category: "Tasks" },
-    { name: "Prayer At The Mosque", xp: 10, category: "Tasks" },
+    { name: "Book", xp: 10, category: "Tasks", penalty: 5 }, // Penalty for not completing this task
+    { name: "Quran", xp: 10, category: "Tasks", penalty: 5 },
+    { name: "Sport", xp: 10, category: "Tasks", penalty: 5 },
+    { name: "Prayer At The Mosque", xp: 10, category: "Tasks", penalty: 5 },
   ],
   xpThresholds: [100, 300, 600, 1000], // XP required for each rank
   rankingNames: ["Warrior", "Master", "Grand Master", "Epic", "Legend", "Mythic"], // Rank names
@@ -220,21 +220,6 @@ function updateXPBar() {
   }
 }
 
-// Reset Completed Tasks
-function resetCompletedTasks() {
-  completedTasks = []; // Clear completed tasks
-  localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
-  loadCompletedTasks(); // Reload the UI
-
-  // Show success message using SweetAlert
-  Swal.fire({
-    icon: 'success',
-    title: 'Tasks Reset!',
-    text: 'Completed tasks have been reset.',
-    confirmButtonText: 'OK',
-  });
-}
-
 // Daily Reset Logic
 function setupDailyReset() {
   const now = new Date();
@@ -249,23 +234,32 @@ function setupDailyReset() {
 
   // Check if it's time to reset
   if (!lastReset || now >= nextReset) {
+    // Apply penalties for uncompleted tasks
+    const xpData = JSON.parse(localStorage.getItem('xp')) || { current: 0, level: 1 };
+    tasks.forEach(task => {
+      xpData.current -= task.penalty; // Deduct XP for uncompleted tasks
+      if (xpData.current < 0) xpData.current = 0;
+    });
+
+    // Reset tasks and completed tasks
     tasks = [...config.tasks]; // Reset tasks to initial state
     completedTasks = []; // Clear completed tasks
+
+    // Save to localStorage
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    localStorage.setItem('xp', JSON.stringify(xpData));
     localStorage.setItem('lastReset', nextReset.toISOString()); // Save the reset time
+
+    // Reload UI
+    loadTasks();
+    loadCompletedTasks();
+    updateXPBar();
   }
 
   // Schedule the next reset
   const timeUntilReset = nextReset - now;
   setTimeout(() => {
-    tasks = [...config.tasks]; // Reset tasks to initial state
-    completedTasks = []; // Clear completed tasks
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
-    localStorage.setItem('lastReset', nextReset.toISOString()); // Save the reset time
-    loadTasks(); // Reload the UI
-    loadCompletedTasks(); // Reload the UI
     setupDailyReset(); // Schedule the next reset
   }, timeUntilReset);
 }
