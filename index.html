@@ -10,29 +10,44 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="text-gray-800 dark:text-gray-200">
-  <!-- Sidebar -->
-  <div class="fixed inset-y-0 left-0 w-80 bg-white dark:bg-gray-800 shadow-lg p-6">
-    <h2 class="text-2xl font-bold mb-8 text-gray-800 dark:text-gray-200">Menu</h2>
-    <ul>
-      <li class="mb-6">
-        <a href="index.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all">
-          <span class="mr-4 text-3xl">🏠</span> Home
-        </a>
-      </li>
-      <li class="mb-6">
-        <a href="profile.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all">
-          <span class="mr-4 text-3xl">👤</span> Profile
-        </a>
-      </li>
-      <li class="mb-6">
-        <a href="badges.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all">
-          <span class="mr-4 text-3xl">🎖️</span> Badges
-        </a>
-      </li>
-    </ul>
-  </div>
+<!-- Menu Button -->
+<button id="menu-toggle" class="fixed top-4 left-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg z-50">
+  ☰
+</button>
+<!-- Close Button -->
+<!-- <button id="close-menu" class="fixed top-4 left-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-lg z-50 hidden">
+  ✕
+</button> -->
+<!-- Sidebar -->
+<div id="sidebar" class="fixed rounded-lg inset-y-0 left-0 w-80 bg-white dark:bg-gray-800 shadow-lg p-6 transform -translate-x-full transition-transform duration-300 z-40">
+  <!-- Close Button -->
+  <button id="close-menu" class="absolute top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-lg z-50 hidden">
+    ✕
+  </button>
+  <ul>
+    <li class="mb-6">
+      <a href="index.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all hover:bg-blue-50 dark:hover:bg-blue-800 transform hover:scale-105">
+        <span class="mr-4 text-3xl">🏠</span> Home
+      </a>
+    </li>
+    <li class="mb-6">
+      <a href="profile.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all hover:bg-blue-50 dark:hover:bg-blue-800 transform hover:scale-105">
+        <span class="mr-4 text-3xl">👤</span> Profile
+      </a>
+    </li>
+    <li class="mb-6">
+      <a href="badges.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all hover:bg-blue-50 dark:hover:bg-blue-800 transform hover:scale-105">
+        <span class="mr-4 text-3xl">🎖️</span> Badges
+      </a>
+    </li>
+  </ul>
+</div>
 
+<!-- Background Container -->
+<div class="min-h-screen bg-cover bg-center" style="background-image: url('assets/background.jpg');">
   <!-- Main Content -->
+  <div class="ml-80 p-6 main-content">
+    <!-- Main Content -->
   <div class="ml-80 p-6">
     <!-- Dark Mode Toggle -->
     <button id="dark-mode-toggle" class="fixed top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-lg">
@@ -42,15 +57,15 @@
     <!-- Profile and Ranking Section (Side by Side) -->
     <div class="flex justify-center gap-6 mb-6">
       <!-- Profile Section -->
-      <div class="bg-white dark:bg-gray-800 p-8 rounded-lg  text-center w-72">
+      <div class="dark:bg-gray-800 p-8 rounded-lg  text-center w-72">
         <div class="flex flex-col items-center">
           <img id="profile-image" src="assets/default-profile.png" alt="Profile" class="w-32 h-32 rounded-lg border-4 border-blue-500 mb-6 shadow-lx">
-          <h1 class="text-4xl font-bold transform-3d" id="profile-name">User</h1>
+          <h1 class="text-4xl font-bold golden-3d " id="profile-name">User</h1>
         </div>
       </div>
 
       <!-- Ranking Section -->
-      <div class="bg-white dark:bg-gray-800 p-8 rounded-lg  text-center w-72">
+      <div class="dark:bg-gray-800 p-8 rounded-lg  text-center w-72">
         <h2 class="text-3xl font-bold mb-6 bronze-3d">Your Rank</h2>
         <div class="flex flex-col items-center">
           <img id="rank-image" src="assets/rank-beginner.png" alt="Rank" class="w-24 h-24 mb-4 shadow-1x">
@@ -89,6 +104,10 @@
     </div>
   </div>
   >
+  </div>
+</div>
+
+  
 
   <script src="app.js"></script>
 </body>

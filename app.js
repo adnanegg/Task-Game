@@ -1,7 +1,7 @@
 // Hardcoded configuration
 const config = {
   tasks: [
-    { name: "Book", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "Book", xp: 6000, points: 10, category: "Task", penalty: 5 },
     { name: "Quran", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Sport", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Prayer At The Mosque", xp: 10, points: 10, category: "Task", penalty: 5 },
@@ -14,7 +14,7 @@ const config = {
     { name: "ختم القرأن", xp: 10, points: 30, category: "Bonus", penalty: 5 },
     { name: "Attend the Weekly meeting", xp: 10, points: 10, category: "Bonus", penalty: 5 }
   ],
-  xpThresholds: [1000, 4000, 6000, 10000,15000,30000],
+  xpThresholds: [100, 400, 600, 1000,1500,3000],
   rankingNames: ["Warrior", "Master", "Grand Master", "Epic", "Legend", "Mythic"],
   rankImages: {
     1: "assets/rank-warrior.png",
@@ -31,6 +31,8 @@ const config = {
     { name: "Prayer Master", section: "Prayer", completed: false },
   ],
 };
+//Function to update the tasks and bonuses when clicking reset at the profile section 
+//conditoin : there should be no task or bonus in the completed tasks section 
 function updateTasksInLocalStorage() {
   // Update localStorage with the latest config.tasks
   localStorage.setItem('tasks', JSON.stringify(config.tasks));
@@ -66,6 +68,31 @@ const completedTaskList = document.getElementById('completed-task-list');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 const pointsBar = document.getElementById('points-bar');
 const pointsText = document.getElementById('points-text');
+
+// Toggle sidebar and buttons
+const menuToggle = document.getElementById('menu-toggle');
+const closeMenu = document.getElementById('close-menu');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.querySelector('.main-content');
+
+menuToggle.addEventListener('click', () => {
+  console.log('Menu Toggle Clicked');
+  sidebar.classList.remove('-translate-x-full'); // Show sidebar
+  sidebar.classList.add('translate-x-0');
+  menuToggle.classList.add('hidden'); // Hide menu button
+  closeMenu.classList.remove('hidden'); // Show close button
+  mainContent.classList.add('sidebar-open');
+});
+
+closeMenu.addEventListener('click', () => {
+  console.log('Close Menu Clicked');;
+  sidebar.classList.remove('translate-x-0'); // Hide sidebar
+  sidebar.classList.add('-translate-x-full');
+  closeMenu.classList.add('hidden'); // Hide close button
+  menuToggle.classList.remove('hidden'); // Show menu button
+  mainContent.classList.remove('sidebar-open');
+});
+
 // Load profile and tasks
 loadProfile();
 loadTasks();
