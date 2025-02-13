@@ -1,13 +1,13 @@
-html, body {
+body {
   height: 100%;
   margin: 0;
   padding: 0;
+  
 }
-
-
 
 h1, h2, h3 {
   font-family: 'Poppins', sans-serif;
+  font-weight: boll;
 }
 
 /* Bronze 3D Font */

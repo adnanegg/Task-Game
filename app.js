@@ -1,7 +1,7 @@
 // Hardcoded configuration
 const config = {
   tasks: [
-    { name: "Book", xp: 6000, points: 10, category: "Task", penalty: 5 },
+    { name: "Book", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Quran", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Sport", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Prayer At The Mosque", xp: 10, points: 10, category: "Task", penalty: 5 },
@@ -107,7 +107,7 @@ function loadTasks() {
     const taskItem = document.createElement('div');
     taskItem.className = 'flex justify-between items-center p-2 border-b';
     taskItem.innerHTML = `
-      <span>${task.name} (${task.xp} XP, ${task.points} Points, ${task.category})</span>
+      <span class="text-2xl font-bold" style="color: blue;">${task.name} (${task.xp} XP, ${task.points} Points, ${task.category})</span>
       <button onclick="completeTask(${index})" class="p-1 bg-green-500 text-white rounded">Complete</button>
     `;
     taskList.appendChild(taskItem);
@@ -121,7 +121,7 @@ function loadCompletedTasks() {
     const taskItem = document.createElement('div');
     taskItem.className = 'flex justify-between items-center p-2 border-b';
     taskItem.innerHTML = `
-      <span>${task.name} (${task.xp} XP, ${task.points} Points)</span>
+      <span class="text-2xl font-bold" style="color: brown;">${task.name} (${task.xp} XP, ${task.points} Points)</span>
       <button onclick="undoTask(${index})" class="p-1 bg-red-500 text-white rounded">Undo</button>
     `;
     completedTaskList.appendChild(taskItem);

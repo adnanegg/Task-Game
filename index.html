@@ -44,15 +44,12 @@
 </div>
 
 <!-- Background Container -->
-<div class="min-h-screen bg-cover bg-center" style="background-image: url('assets/background.jpg');">
+<div  id="content" class="min-h-screen bg-cover bg-center" style="background-image: url('assets/background.jpg'); ;">
   <!-- Main Content -->
   <div class="ml-80 p-6 main-content">
     <!-- Main Content -->
   <div class="ml-80 p-6">
-    <!-- Dark Mode Toggle -->
-    <button id="dark-mode-toggle" class="fixed top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-lg">
-      🌓
-    </button>
+    
 
     <!-- Profile and Ranking Section (Side by Side) -->
     <div class="flex justify-center gap-6 mb-6">
@@ -75,29 +72,29 @@
     </div>
 
     <!-- XP Progress Bar -->
-    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg  mb-6 text-center">
-      <h2 class="text-3xl font-bold mb-6">XP Progress</h2>
-      <div class="w-full bg-green-200 rounded-full h-8 relative mt-2 shadow-1x overflow-hidden">
+    <div class="dark:bg-gray-800 p-8 rounded-lg  mb-6 text-center">
+      <h2 class="text-3xl font-bold mb-6 text-red" style="color: yellow">XP Progress</h2>
+      <div class="w-full bg-green-700 rounded-full h-8 relative mt-2 shadow-1x overflow-hidden">
         <div id="xp-bar" class="bg-blue-500 h-8 rounded-full transition-all duration-500 ease-in-out" style="width: 0%;"></div>
         <span id="xp-text" class="absolute inset-0 flex items-center justify-center text-lg text-white">0/100 XP</span>
       </div>
     </div>
     <!-- Points Progress Bar -->
-    <div class="bg-white p-8 rounded-lg  mb-6 text-center">
-      <h2 class="text-3xl font-bold mb-6">Points Progress</h2>
-      <div class="w-full bg-blue-200  h-8 relative mt-2 shadow-xl overflow-hidden h-4 rounded-full bg-gradient-to-r from-amber-200 to-yellow-500">
+    <div class="p-8 rounded-lg  mb-6 text-center">
+      <h2 class="text-3xl font-bold mb-6" style="color: yellow">Points Progress</h2>
+      <div class="w-full bg-blue-700  h-8 relative mt-2 shadow-xl overflow-hidden h-4 rounded-full bg-gradient-to-r from-amber-200 to-yellow-500">
         <div id="points-bar" class="bg-blue-500 h-8 rounded-full transition-all duration-500 ease-in-out " style="width: 0%;"></div>
         <span id="points-text" class="absolute inset-0 flex items-center justify-center text-lg text-white">0/700 Points</span>
       </div>
     </div>
       
     <!-- Task Section -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-1x mb-6" style="border:2px solid black">
       <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Daily Tasks</h2>
-      <div id="task-list" class="mb-4">
+      <div id="task-list" class="bg-white mb-4">
         <!-- Tasks will be dynamically added here -->
       </div>
-      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Today's Completed Tasks</h2>
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200" style="border-top : 1px solid black;">Today's Completed Tasks</h2>
       <div id="completed-task-list">
         <!-- Completed tasks will be dynamically added here -->
       </div>
