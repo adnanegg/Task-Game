@@ -1,13 +1,21 @@
 // Hardcoded configuration
 const config = {
   tasks: [
-    { name: "Book", xp: 10, category: "Tasks", penalty: 5 }, // Penalty for not completing this task
-    { name: "Quran", xp: 10, category: "Tasks", penalty: 5 },
-    { name: "Sport", xp: 10, category: "Tasks", penalty: 5 },
-    { name: "Prayer At The Mosque", xp: 10, category: "Tasks", penalty: 5 },
+    { name: "Book", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "Quran", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "Sport", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "Prayer At The Mosque", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "listen to quoran", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "15 Min Improvement", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "Wake up early", xp: 10, points: 10, category: "Task", penalty: 5 }, 
+    { name: "الشفع و الوتر", xp: 10, points: 40, category: "Bonus", penalty: 5 },
+    { name: "Presentation", xp: 10, points: 50, category: "Bonus", penalty: 5 },
+    { name: "One day no social Media", xp: 10, points: 30, category: "Bonus", penalty: 5 },
+    { name: "ختم القرأن", xp: 10, points: 30, category: "Bonus", penalty: 5 },
+    { name: "Attend the Weekly meeting", xp: 10, points: 10, category: "Bonus", penalty: 5 }
   ],
-  xpThresholds: [100, 300, 600, 1000], // XP required for each rank
-  rankingNames: ["Warrior", "Master", "Grand Master", "Epic", "Legend", "Mythic"], // Rank names
+  xpThresholds: [1000, 4000, 6000, 10000,15000,30000],
+  rankingNames: ["Warrior", "Master", "Grand Master", "Epic", "Legend", "Mythic"],
   rankImages: {
     1: "assets/rank-warrior.png",
     2: "assets/rank-master.png",
@@ -23,16 +31,28 @@ const config = {
     { name: "Prayer Master", section: "Prayer", completed: false },
   ],
 };
+function updateTasksInLocalStorage() {
+  // Update localStorage with the latest config.tasks
+  localStorage.setItem('tasks', JSON.stringify(config.tasks));
+}
+
+
 
 // Load user profile from localStorage
 let userProfile = JSON.parse(localStorage.getItem('USER_PROFILE')) || {
   name: "User",
   photo: "assets/default-profile.png",
 };
-
+// Initialize tasks in localStorage if not already set
+if (!localStorage.getItem('tasks')) {
+  localStorage.setItem('tasks', JSON.stringify(config.tasks));
+}
 // Load tasks and completed tasks from localStorage
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [...config.tasks];
+let tasks = JSON.parse(localStorage.getItem('tasks'));
+// Load tasks and completed tasks from localStorage
+
 let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+let pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 100 };
 
 // DOM Elements
 const profileImage = document.getElementById('profile-image');
@@ -44,12 +64,14 @@ const xpText = document.getElementById('xp-text');
 const taskList = document.getElementById('task-list');
 const completedTaskList = document.getElementById('completed-task-list');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
-
+const pointsBar = document.getElementById('points-bar');
+const pointsText = document.getElementById('points-text');
 // Load profile and tasks
 loadProfile();
 loadTasks();
 loadCompletedTasks();
 setupDailyReset();
+updatePointsBar();
 
 // Load Tasks
 function loadTasks() {
@@ -58,7 +80,7 @@ function loadTasks() {
     const taskItem = document.createElement('div');
     taskItem.className = 'flex justify-between items-center p-2 border-b';
     taskItem.innerHTML = `
-      <span>${task.name} (${task.xp} XP, ${task.category})</span>
+      <span>${task.name} (${task.xp} XP, ${task.points} Points, ${task.category})</span>
       <button onclick="completeTask(${index})" class="p-1 bg-green-500 text-white rounded">Complete</button>
     `;
     taskList.appendChild(taskItem);
@@ -72,7 +94,7 @@ function loadCompletedTasks() {
     const taskItem = document.createElement('div');
     taskItem.className = 'flex justify-between items-center p-2 border-b';
     taskItem.innerHTML = `
-      <span>${task.name} (${task.xp} XP)</span>
+      <span>${task.name} (${task.xp} XP, ${task.points} Points)</span>
       <button onclick="undoTask(${index})" class="p-1 bg-red-500 text-white rounded">Undo</button>
     `;
     completedTaskList.appendChild(taskItem);
@@ -82,10 +104,13 @@ function loadCompletedTasks() {
 // Load Profile
 function loadProfile() {
   const xpData = JSON.parse(localStorage.getItem('xp')) || { current: 0, level: 1 };
+  
   profileName.textContent = userProfile.name;
   profileImage.src = userProfile.photo;
+
   profileRank.textContent = config.rankingNames[xpData.level - 1] || "Beginner";
-  rankImage.src = config.rankImages[xpData.level] || "assets/rank-beginner.png"; // Update rank image
+  rankImage.src = config.rankImages[xpData.level] || "assets/rank-beginner.png";
+  
   updateXPBar();
 }
 
@@ -103,13 +128,11 @@ function updateProfile() {
     reader.onload = function (e) {
       userProfile.photo = e.target.result;
       localStorage.setItem('USER_PROFILE', JSON.stringify(userProfile));
-      loadProfile(); // Reload profile to reflect changes
+      loadProfile();
 
-      // Clear input fields after photo is uploaded
-      document.getElementById('new-name').value = ''; // Clear name input
-      profilePhotoInput.value = ''; // Clear file input
+      document.getElementById('new-name').value = '';
+      profilePhotoInput.value = '';
 
-      // Show success message using SweetAlert
       Swal.fire({
         icon: 'success',
         title: 'Profile Updated!',
@@ -120,13 +143,11 @@ function updateProfile() {
     reader.readAsDataURL(profilePhotoInput.files[0]);
   } else {
     localStorage.setItem('USER_PROFILE', JSON.stringify(userProfile));
-    loadProfile(); // Reload profile to reflect changes
+    loadProfile();
 
-    // Clear input fields even if no photo is uploaded
-    document.getElementById('new-name').value = ''; // Clear name input
-    profilePhotoInput.value = ''; // Clear file input
+    document.getElementById('new-name').value = '';
+    profilePhotoInput.value = '';
 
-    // Show success message using SweetAlert
     Swal.fire({
       icon: 'success',
       title: 'Profile Updated!',
@@ -136,17 +157,21 @@ function updateProfile() {
   }
 }
 
-// Complete Task
+
 function completeTask(index) {
   const completedTask = tasks[index];
   completedTasks.push(completedTask);
   tasks.splice(index, 1);
 
-  // Update XP
   const xpData = JSON.parse(localStorage.getItem('xp')) || { current: 0, level: 1 };
   xpData.current += completedTask.xp;
+  
+  
+  pointsData.current += completedTask.points;
+  if (pointsData.current > pointsData.total) pointsData.total = pointsData.current;
+  
+  
 
-  // Check if user leveled up
   const xpThreshold = config.xpThresholds[xpData.level - 1] || 100;
   if (xpData.current >= xpThreshold) {
     xpData.level += 1;
@@ -159,15 +184,17 @@ function completeTask(index) {
     });
   }
 
-  // Save to localStorage
   localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   localStorage.setItem('xp', JSON.stringify(xpData));
+  localStorage.setItem('points', JSON.stringify(pointsData));
+  console.log(pointsData.current)
 
-  // Reload UI
   loadTasks();
   loadCompletedTasks();
   updateXPBar();
+  updatePointsBar();
+  loadProfile();
 }
 
 // Undo Task
@@ -176,20 +203,24 @@ function undoTask(index) {
   tasks.push(task);
   completedTasks.splice(index, 1);
 
-  // Update XP
   const xpData = JSON.parse(localStorage.getItem('xp'));
   xpData.current -= task.xp;
   if (xpData.current < 0) xpData.current = 0;
 
-  // Save to localStorage
+  // Update Points
+  pointsData.current -= task.points || 0;
+  if (pointsData.current < 0) pointsData.current = 0;
+  localStorage.setItem('points', JSON.stringify(pointsData));
+  
+
   localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   localStorage.setItem('xp', JSON.stringify(xpData));
 
-  // Reload UI
   loadTasks();
   loadCompletedTasks();
   updateXPBar();
+  updatePointsBar();
 }
 
 // Update XP Bar
@@ -197,27 +228,45 @@ function updateXPBar() {
   const xpData = JSON.parse(localStorage.getItem('xp')) || { current: 0, level: 1 };
   const xpThreshold = config.xpThresholds[xpData.level - 1] || 100;
 
-  // Calculate XP percentage
   const xpPercentage = (xpData.current / xpThreshold) * 100;
 
-  // Update XP bar width with animation
   xpBar.style.transition = 'width 0.5s ease-in-out';
   xpBar.style.width = `${xpPercentage}%`;
 
-  // Update XP text
   xpText.textContent = `${xpData.current}/${xpThreshold} XP`;
 
-  // Change bar color based on progress
   if (xpPercentage >= 75) {
     xpBar.classList.remove('bg-blue-500', 'bg-yellow-500');
-    xpBar.classList.add('bg-green-500'); // Green for high progress
+    xpBar.classList.add('bg-green-500');
   } else if (xpPercentage >= 50) {
     xpBar.classList.remove('bg-blue-500', 'bg-green-500');
-    xpBar.classList.add('bg-yellow-500'); // Yellow for medium progress
+    xpBar.classList.add('bg-yellow-500');
   } else {
     xpBar.classList.remove('bg-yellow-500', 'bg-green-500');
-    xpBar.classList.add('bg-blue-500'); // Blue for low progress
+    xpBar.classList.add('bg-blue-500');
   }
+}
+
+// Update Points Bar
+function updatePointsBar() {
+  pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 100 };
+  const pointsPercentage = (pointsData.current / pointsData.total) * 100;
+
+  pointsBar.style.transition = 'width 0.5s ease-in-out';
+  pointsBar.style.width = `${pointsPercentage}%`;
+  pointsText.textContent = `${pointsData.current} pts`;
+
+  if (pointsPercentage >= 75) {
+    pointsBar.classList.remove('bg-blue-500', 'bg-yellow-500');
+    pointsBar.classList.add('bg-green-500');
+  } else if (pointsPercentage >= 50) {
+    pointsBar.classList.remove('bg-blue-500', 'bg-green-500');
+    pointsBar.classList.add('bg-yellow-500');
+  } else {
+    pointsBar.classList.remove('bg-yellow-500', 'bg-green-500');
+    pointsBar.classList.add('bg-blue-500');
+  }
+  console.log("mine is working")
 }
 
 // Daily Reset Logic
@@ -225,42 +274,35 @@ function setupDailyReset() {
   const now = new Date();
   const lastReset = localStorage.getItem('lastReset') ? new Date(localStorage.getItem('lastReset')) : null;
 
-  // Calculate the next reset time (5 AM of the next day)
   const nextReset = new Date(now);
-  nextReset.setHours(5, 0, 0, 0); // Set to 5 AM
+  nextReset.setHours(5, 0, 0, 0);
   if (now >= nextReset) {
-    nextReset.setDate(nextReset.getDate() + 1); // Move to the next day
+    nextReset.setDate(nextReset.getDate() + 1);
   }
 
-  // Check if it's time to reset
   if (!lastReset || now >= nextReset) {
-    // Apply penalties for uncompleted tasks
     const xpData = JSON.parse(localStorage.getItem('xp')) || { current: 0, level: 1 };
     tasks.forEach(task => {
-      xpData.current -= task.penalty; // Deduct XP for uncompleted tasks
+      xpData.current -= task.penalty;
       if (xpData.current < 0) xpData.current = 0;
     });
 
-    // Reset tasks and completed tasks
-    tasks = [...config.tasks]; // Reset tasks to initial state
-    completedTasks = []; // Clear completed tasks
+    tasks = [...config.tasks];
+    completedTasks = [];
 
-    // Save to localStorage
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
     localStorage.setItem('xp', JSON.stringify(xpData));
-    localStorage.setItem('lastReset', nextReset.toISOString()); // Save the reset time
+    localStorage.setItem('lastReset', nextReset.toISOString());
 
-    // Reload UI
     loadTasks();
     loadCompletedTasks();
     updateXPBar();
   }
 
-  // Schedule the next reset
   const timeUntilReset = nextReset - now;
   setTimeout(() => {
-    setupDailyReset(); // Schedule the next reset
+    setupDailyReset();
   }, timeUntilReset);
 }
 
@@ -270,7 +312,6 @@ darkModeToggle.addEventListener('click', () => {
   localStorage.setItem('darkMode', document.body.classList.contains('dark'));
 });
 
-// Check for saved dark mode preference
 if (localStorage.getItem('darkMode') === 'true') {
   document.body.classList.add('dark');
 }
