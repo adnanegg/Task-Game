@@ -1,8 +1,10 @@
+
 body {
-  height: 100%;
   margin: 0;
   padding: 0;
-  
+  max-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-image: url('assets/bodyImage3.jpg');
 }
 
 h1, h2, h3 {
@@ -75,3 +77,9 @@ h1, h2, h3 {
   }
 }
 
+.botBox{
+  background-image: url('assets/taskImage.jpg');
+}
+/* #sidebar{
+  background-image: url('assets/sidebarImage.jpg');
+} */

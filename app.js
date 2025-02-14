@@ -64,34 +64,35 @@ const rankImage = document.getElementById('rank-image');
 const xpBar = document.getElementById('xp-bar');
 const xpText = document.getElementById('xp-text');
 const taskList = document.getElementById('task-list');
+const bonusTaskList = document.getElementById('bonus-task-list'); // Add this line
 const completedTaskList = document.getElementById('completed-task-list');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 const pointsBar = document.getElementById('points-bar');
 const pointsText = document.getElementById('points-text');
 
 // Toggle sidebar and buttons
-const menuToggle = document.getElementById('menu-toggle');
-const closeMenu = document.getElementById('close-menu');
-const sidebar = document.getElementById('sidebar');
-const mainContent = document.querySelector('.main-content');
+// const menuToggle = document.getElementById('menu-toggle');
+// const closeMenu = document.getElementById('close-menu');
+// const sidebar = document.getElementById('sidebar');
+// const mainContent = document.querySelector('.main-content');
 
-menuToggle.addEventListener('click', () => {
-  console.log('Menu Toggle Clicked');
-  sidebar.classList.remove('-translate-x-full'); // Show sidebar
-  sidebar.classList.add('translate-x-0');
-  menuToggle.classList.add('hidden'); // Hide menu button
-  closeMenu.classList.remove('hidden'); // Show close button
-  mainContent.classList.add('sidebar-open');
-});
+// menuToggle.addEventListener('click', () => {
+//   console.log('Menu Toggle Clicked');
+//   sidebar.classList.remove('-translate-x-full'); // Show sidebar
+//   sidebar.classList.add('translate-x-0');
+//   menuToggle.classList.add('hidden'); // Hide menu button
+//   closeMenu.classList.remove('hidden'); // Show close button
+//   mainContent.classList.add('sidebar-open');
+// });
 
-closeMenu.addEventListener('click', () => {
-  console.log('Close Menu Clicked');;
-  sidebar.classList.remove('translate-x-0'); // Hide sidebar
-  sidebar.classList.add('-translate-x-full');
-  closeMenu.classList.add('hidden'); // Hide close button
-  menuToggle.classList.remove('hidden'); // Show menu button
-  mainContent.classList.remove('sidebar-open');
-});
+// closeMenu.addEventListener('click', () => {
+//   console.log('Close Menu Clicked');;
+//   sidebar.classList.remove('translate-x-0'); // Hide sidebar
+//   sidebar.classList.add('-translate-x-full');
+//   closeMenu.classList.add('hidden'); // Hide close button
+//   menuToggle.classList.remove('hidden'); // Show menu button
+//   mainContent.classList.remove('sidebar-open');
+// });
 
 // Load profile and tasks
 loadProfile();
@@ -103,14 +104,24 @@ updatePointsBar();
 // Load Tasks
 function loadTasks() {
   taskList.innerHTML = '';
+  bonusTaskList.innerHTML = ''; // Clear bonus tasks
+
   tasks.forEach((task, index) => {
     const taskItem = document.createElement('div');
     taskItem.className = 'flex justify-between items-center p-2 border-b';
+
+
     taskItem.innerHTML = `
-      <span class="text-2xl font-bold" style="color: blue;">${task.name} (${task.xp} XP, ${task.points} Points, ${task.category})</span>
+      <span class="text-1xl font-bold" style="color: blue;">${task.name} (${task.xp} XP, ${task.points} Points, ${task.category})</span>
       <button onclick="completeTask(${index})" class="p-1 bg-green-500 text-white rounded">Complete</button>
     `;
     taskList.appendChild(taskItem);
+  // Add to the appropriate section based on the category
+    if (task.category === "Task") {
+      taskList.appendChild(taskItem); // Add to Daily Tasks
+    } else if (task.category === "Bonus") {
+      bonusTaskList.appendChild(taskItem); // Add to Bonus Tasks
+    }
   });
 }
 
@@ -121,7 +132,7 @@ function loadCompletedTasks() {
     const taskItem = document.createElement('div');
     taskItem.className = 'flex justify-between items-center p-2 border-b';
     taskItem.innerHTML = `
-      <span class="text-2xl font-bold" style="color: brown;">${task.name} (${task.xp} XP, ${task.points} Points)</span>
+      <span class="text-1xl font-bold" style="color: brown;">${task.name} (${task.xp} XP, ${task.points} Points)</span>
       <button onclick="undoTask(${index})" class="p-1 bg-red-500 text-white rounded">Undo</button>
     `;
     completedTaskList.appendChild(taskItem);

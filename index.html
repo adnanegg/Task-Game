@@ -11,32 +11,22 @@
 </head>
 <body class="text-gray-800 dark:text-gray-200">
 <!-- Menu Button -->
-<button id="menu-toggle" class="fixed top-4 left-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg z-50">
-  ☰
-</button>
-<!-- Close Button -->
-<!-- <button id="close-menu" class="fixed top-4 left-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-lg z-50 hidden">
-  ✕
-</button> -->
-<!-- Sidebar -->
-<div id="sidebar" class="fixed rounded-lg inset-y-0 left-0 w-80 bg-white dark:bg-gray-800 shadow-lg p-6 transform -translate-x-full transition-transform duration-300 z-40">
-  <!-- Close Button -->
-  <button id="close-menu" class="absolute top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-lg z-50 hidden">
-    ✕
-  </button>
+
+<div class="fixed inset-y-0 left-0 w-80 bg-white dark:bg-gray-800 shadow-lg p-6" id="sidebar">
+  <h2 class="text-2xl font-bold mb-8 text-gray-800 dark:text-gray-200">Menu</h2>
   <ul>
     <li class="mb-6">
-      <a href="index.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all hover:bg-blue-50 dark:hover:bg-blue-800 transform hover:scale-105">
+      <a href="index.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all">
         <span class="mr-4 text-3xl">🏠</span> Home
       </a>
     </li>
     <li class="mb-6">
-      <a href="profile.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all hover:bg-blue-50 dark:hover:bg-blue-800 transform hover:scale-105">
+      <a href="profile.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all">
         <span class="mr-4 text-3xl">👤</span> Profile
       </a>
     </li>
     <li class="mb-6">
-      <a href="badges.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all hover:bg-blue-50 dark:hover:bg-blue-800 transform hover:scale-105">
+      <a href="badges.html" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 text-xl p-4 rounded-lg transition-all">
         <span class="mr-4 text-3xl">🎖️</span> Badges
       </a>
     </li>
@@ -44,19 +34,19 @@
 </div>
 
 <!-- Background Container -->
-<div  id="content" class="min-h-screen bg-cover bg-center" style="background-image: url('assets/background.jpg'); ;">
   <!-- Main Content -->
-  <div class="ml-80 p-6 main-content">
+  <div class="ml-80 p-6 main-content w-full">
     <!-- Main Content -->
   <div class="ml-80 p-6">
     
 
     <!-- Profile and Ranking Section (Side by Side) -->
-    <div class="flex justify-center gap-6 mb-6">
+    <div class="flex justify-center gap-6 mt-2 w-full">
       <!-- Profile Section -->
       <div class="dark:bg-gray-800 p-8 rounded-lg  text-center w-72">
         <div class="flex flex-col items-center">
-          <img id="profile-image" src="assets/default-profile.png" alt="Profile" class="w-32 h-32 rounded-lg border-4 border-blue-500 mb-6 shadow-lx">
+          <img id="profile-image" src="assets/default-profile.png" alt="Profile" 
+          class="w-32 h-32 rounded-lg border-4 border-blue-500 mb-6 shadow-lx">
           <h1 class="text-4xl font-bold golden-3d " id="profile-name">User</h1>
         </div>
       </div>
@@ -65,7 +55,8 @@
       <div class="dark:bg-gray-800 p-8 rounded-lg  text-center w-72">
         <h2 class="text-3xl font-bold mb-6 bronze-3d">Your Rank</h2>
         <div class="flex flex-col items-center">
-          <img id="rank-image" src="assets/rank-beginner.png" alt="Rank" class="w-24 h-24 mb-4 shadow-1x">
+          <img id="rank-image" src="assets/rank-beginner.png" alt="Rank" 
+           class="w-24 h-24 mb-4 shadow-1x">
           <p class="text-2xl font-semibold bronze-3d " id="profile-rank">Beginner</p>
         </div>
       </div>
@@ -73,7 +64,7 @@
 
     <!-- XP Progress Bar -->
     <div class="dark:bg-gray-800 p-8 rounded-lg  mb-6 text-center">
-      <h2 class="text-3xl font-bold mb-6 text-red" style="color: yellow">XP Progress</h2>
+      <h2 class="text-3xl font-bold mb-6 text-red" style="color: rgb(220, 220, 41)">XP Progress</h2>
       <div class="w-full bg-green-700 rounded-full h-8 relative mt-2 shadow-1x overflow-hidden">
         <div id="xp-bar" class="bg-blue-500 h-8 rounded-full transition-all duration-500 ease-in-out" style="width: 0%;"></div>
         <span id="xp-text" class="absolute inset-0 flex items-center justify-center text-lg text-white">0/100 XP</span>
@@ -81,28 +72,42 @@
     </div>
     <!-- Points Progress Bar -->
     <div class="p-8 rounded-lg  mb-6 text-center">
-      <h2 class="text-3xl font-bold mb-6" style="color: yellow">Points Progress</h2>
+      <h2 class="text-3xl font-bold mb-6" style="color: rgb(220, 220, 41)">Points Progress</h2>
       <div class="w-full bg-blue-700  h-8 relative mt-2 shadow-xl overflow-hidden h-4 rounded-full bg-gradient-to-r from-amber-200 to-yellow-500">
         <div id="points-bar" class="bg-blue-500 h-8 rounded-full transition-all duration-500 ease-in-out " style="width: 0%;"></div>
         <span id="points-text" class="absolute inset-0 flex items-center justify-center text-lg text-white">0/700 Points</span>
       </div>
     </div>
-      
+    
     <!-- Task Section -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-1x mb-6" style="border:2px solid black">
-      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Daily Tasks</h2>
-      <div id="task-list" class="bg-white mb-4">
-        <!-- Tasks will be dynamically added here -->
-      </div>
-      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200" style="border-top : 1px solid black;">Today's Completed Tasks</h2>
-      <div id="completed-task-list">
-        <!-- Completed tasks will be dynamically added here -->
-      </div>
+<div class="botBox flex justify-between items-start gap-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-1x mb-6" style="border:2px solid black">
+  <!-- Left Column: Daily Tasks and Bonus Tasks -->
+  <div class="flex-1">
+    <h2 class="text-2xl font-bold mb-4 text-green-800 dark:text-gray-200">Daily Tasks</h2>
+    <div id="task-list" class=>
+      <!-- Daily tasks will be dynamically added here -->
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4 text-red-800 dark:text-gray-200">Bonus Tasks</h2>
+    <div id="bonus-task-list" class=>
+      <!-- Bonus tasks will be dynamically added here -->
     </div>
   </div>
-  >
-  </div>
+
+  <!-- Center Column: Completed Tasks -->
+  <div class="flex-1 flex justify-center">
+    <div>
+      <h2 class="text-2xl font-bold mb-4 text-purple-800 dark:text-gray-200 text-center">Today's Completed Tasks</h2>
+      <div id="completed-task-list">
+        Completed tasks will be dynamically added here
+      </div>
+    </div>
+  </div> 
 </div>
+    </div>
+    </div>   
+    
+
 
   
 
