@@ -1,7 +1,7 @@
 // Hardcoded configuration
 const config = {
   tasks: [
-    { name: "Book", xp: 10, points: 30, category: "Task", penalty: 5 },
+    { name: "Book", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Quran", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Sport", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Prayer At The Mosque", xp: 10, points: 10, category: "Task", penalty: 5 },
