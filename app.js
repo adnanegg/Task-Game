@@ -1,7 +1,7 @@
 // Hardcoded configuration
 const config = {
   tasks: [
-    { name: "Book", xp: 10, points: 10, category: "Task", penalty: 5 },
+    { name: "Bookii", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Quran", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Sport", xp: 10, points: 10, category: "Task", penalty: 5 },
     { name: "Prayer At The Mosque", xp: 10, points: 10, category: "Task", penalty: 5 },
@@ -31,14 +31,65 @@ const config = {
     { name: "Prayer Master", section: "Prayer", completed: false },
   ],
 };
+//Important functions the program rely on 
+
 //Function to update the tasks and bonuses when clicking reset at the profile section 
 //conditoin : there should be no task or bonus in the completed tasks section 
+
+
 function updateTasksInLocalStorage() {
   // Update localStorage with the latest config.tasks
   localStorage.setItem('tasks', JSON.stringify(config.tasks));
 }
 
+//function to reset completed tasks ans points Bar without affecting the XP
+function resetCompletedTasks() {
+  const xpData = JSON.parse(localStorage.getItem('xp')) || { current: 0, level: 1 };
+  const pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 100 };
 
+  // Move all completed tasks back to the tasks list
+  completedTasks.forEach(task => {
+    tasks.push(task);
+  });
+
+  // Clear the completed tasks
+  completedTasks = [];
+
+  // Save the updated tasks and completed tasks to localStorage
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+
+  // Reload the tasks and completed tasks
+  loadTasks();
+  loadCompletedTasks();
+
+  // Show a success message
+  Swal.fire({
+    icon: 'success',
+    title: 'Tasks Reset!',
+    text: 'All completed tasks have been reset without deducting XP.',
+    confirmButtonText: 'OK',
+  });
+}
+//Function to reset PointsBar Progress 
+function resetPointsBar() {
+  // Reset points data to 0
+  const pointsData = { current: 0, total: 100 }; // You can adjust the total if needed
+
+  // Save the reset points data to localStorage
+  localStorage.setItem('points', JSON.stringify(pointsData));
+
+  // Update the points bar display
+  updatePointsBar();
+
+  // Show a success message
+  Swal.fire({
+    icon: 'success',
+    title: 'Points Bar Reset!',
+    text: 'The points bar has been reset to 0.',
+    confirmButtonText: 'OK',
+  });
+}
 
 // Load user profile from localStorage
 let userProfile = JSON.parse(localStorage.getItem('USER_PROFILE')) || {
@@ -287,7 +338,9 @@ function updateXPBar() {
 
 // Update Points Bar
 function updatePointsBar() {
+
   pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 100 };
+ 
   const pointsPercentage = (pointsData.current / pointsData.total) * 100;
 
   pointsBar.style.transition = 'width 0.5s ease-in-out';
