@@ -12,7 +12,7 @@ const config = {
     { name: "Presentation", xp: 10, points: 50, category: "Bonus", penalty: 5 },
     { name: "One day no social Media", xp: 10, points: 30, category: "Bonus", penalty: 5 },
     { name: "ختم القرأن", xp: 10, points: 30, category: "Bonus", penalty: 5 },
-    { name: "Attend the Weekly meeting", xp: 10, points: 10, category: "Bonus", penalty: 5 }
+    { name: "Attend the Weekly meeting", xp: 10, points: 10, category: "Bonus", penalty: 5 },
     { name: "Quran Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
     { name: "Book Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
     { name: "Prayer Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
@@ -37,7 +37,7 @@ const config = {
 //Important functions the program rely on 
 
 //Function to update the tasks and bonuses when clicking reset at the profile section 
-//conditoin : there should be no task or bonus in the completed tasks section 
+//condition : there should be no task or bonus in the completed tasks section 
 
 
 function updateTasksInLocalStorage() {
@@ -45,7 +45,7 @@ function updateTasksInLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(config.tasks));
 }
 
-//function to reset completed tasks ans points Bar without affecting the XP
+//function to reset completed tasks and points Bar without affecting the XP
 function resetCompletedTasks() {
   const xpData = JSON.parse(localStorage.getItem('xp')) || { current: 0, level: 1 };
   const pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 100 };
