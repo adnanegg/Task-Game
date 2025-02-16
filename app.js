@@ -13,8 +13,11 @@ const config = {
     { name: "One day no social Media", xp: 10, points: 30, category: "Bonus", penalty: 5 },
     { name: "ختم القرأن", xp: 10, points: 30, category: "Bonus", penalty: 5 },
     { name: "Attend the Weekly meeting", xp: 10, points: 10, category: "Bonus", penalty: 5 }
+    { name: "Quran Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
+    { name: "Book Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
+    { name: "Prayer Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
   ],
-  xpThresholds: [100, 400, 600, 1000,1500,3000],
+  xpThresholds: [1000, 4000, 6000, 10000,15000,30000],
   rankingNames: ["Warrior", "Master", "Grand Master", "Epic", "Legend", "Mythic"],
   rankImages: {
     1: "assets/rank-warrior.png",
