@@ -1,23 +1,23 @@
 // Hardcoded configuration
 const config = {
   tasks: [
-    { name: "Book", xp: 10, points: 10, category: "Task", penalty: 5 },
-    { name: "Quran", xp: 10, points: 10, category: "Task", penalty: 5 },
-    { name: "Sport", xp: 10, points: 10, category: "Task", penalty: 5 },
-    { name: "Prayer At The Mosque", xp: 10, points: 10, category: "Task", penalty: 5 },
-    { name: "listen to quoran", xp: 10, points: 10, category: "Task", penalty: 5 },
-    { name: "15 Min Improvement", xp: 10, points: 10, category: "Task", penalty: 5 },
-    { name: "Wake up early", xp: 10, points: 10, category: "Task", penalty: 5 }, 
-    { name: "الشفع و الوتر", xp: 10, points: 40, category: "Bonus", penalty: 5 },
-    { name: "Presentation", xp: 10, points: 50, category: "Bonus", penalty: 5 },
-    { name: "One day no social Media", xp: 10, points: 30, category: "Bonus", penalty: 5 },
-    { name: "ختم القرأن", xp: 10, points: 30, category: "Bonus", penalty: 5 },
-    { name: "Attend the Weekly meeting", xp: 10, points: 10, category: "Bonus", penalty: 5 },
-    { name: "Quran Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
-    { name: "Book Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
-    { name: "Prayer Exception", xp: 5, points: 5, category: "Task", penalty: 5 },
+    { name: "Book", xp: 50, points: 10, category: "Task", penalty: 5 },
+    { name: "Quran", xp: 50, points: 10, category: "Task", penalty: 5 },
+    { name: "Sport", xp: 50, points: 10, category: "Task", penalty: 5 },
+    { name: "Prayer At The Mosque", xp: 50, points: 10, category: "Task", penalty: 5 },
+    { name: "listen to quoran", xp: 50, points: 10, category: "Task", penalty: 5 },
+    { name: "15 Min Improvement", xp: 50, points: 10, category: "Task", penalty: 5 },
+    { name: "Wake up early", xp: 50, points: 10, category: "Task", penalty: 5 }, 
+    { name: "الشفع و الوتر", xp: 100, points: 40, category: "Bonus", penalty: 5 },
+    { name: "Presentation", xp: 200, points: 50, category: "Bonus", penalty: 5 },
+    { name: "One day no social Media", xp: 100, points: 30, category: "Bonus", penalty: 5 },
+    { name: "ختم القرأن", xp: 200, points: 30, category: "Bonus", penalty: 5 },
+    { name: "Attend the Weekly meeting", xp: 30, points: 10, category: "Bonus", penalty: 5 },
+    { name: "Quran Exception", xp: 25, points: 5, category: "Task", penalty: 5 },
+    { name: "Book Exception", xp: 25, points: 5, category: "Task", penalty: 5 },
+    { name: "Prayer Exception", xp: 25, points: 5, category: "Task", penalty: 5 },
   ],
-  xpThresholds: [1000, 4000, 6000, 10000,15000,30000],
+  xpThresholds: [2000, 6000, 12000, 18000,30000,50000],
   rankingNames: ["Warrior", "Master", "Grand Master", "Epic", "Legend", "Mythic"],
   rankImages: {
     1: "assets/rank-warrior.png",
@@ -93,6 +93,25 @@ function resetPointsBar() {
     confirmButtonText: 'OK',
   });
 }
+//Function to reset PointsBar Progress 
+function resetMonthlyPointsBar() {
+  // Reset points data to 0
+  const MpointsData = { current: 0, total: 3000 }; // You can adjust the total if needed
+
+  // Save the reset points data to localStorage
+  localStorage.setItem('Mpoints', JSON.stringify(MpointsData));
+
+  // Update the points bar display
+  updateMonthlyPointsBar();
+
+  // Show a success message
+  Swal.fire({
+    icon: 'success',
+    title: 'Monthly Points Bar Reset!',
+    text: 'The Monthly points bar has been reset to 0.',
+    confirmButtonText: 'OK',
+  });
+}
 
 // Load user profile from localStorage
 let userProfile = JSON.parse(localStorage.getItem('USER_PROFILE')) || {
@@ -108,7 +127,8 @@ let tasks = JSON.parse(localStorage.getItem('tasks'));
 // Load tasks and completed tasks from localStorage
 
 let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
-let pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 100 };
+let pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 1000 };
+let MpointsData = JSON.parse(localStorage.getItem('Mpoints'))|| { current: 0, total: 3000 };
 
 // DOM Elements
 const profileImage = document.getElementById('profile-image');
@@ -123,6 +143,8 @@ const completedTaskList = document.getElementById('completed-task-list');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 const pointsBar = document.getElementById('points-bar');
 const pointsText = document.getElementById('points-text');
+const M_pointsBar = document.getElementById('M-points-bar');
+const M_pointsText = document.getElementById('M-points-text');
 
 // Toggle sidebar and buttons
 // const menuToggle = document.getElementById('menu-toggle');
@@ -154,6 +176,7 @@ loadTasks();
 loadCompletedTasks();
 setupDailyReset();
 updatePointsBar();
+updateMonthlyPointsBar();
 
 // Load Tasks
 function loadTasks() {
@@ -166,7 +189,7 @@ function loadTasks() {
 
 
     taskItem.innerHTML = `
-      <span class="text-1xl font-bold" style="color: blue;">${task.name} (${task.xp} XP, ${task.points} Points, ${task.category})</span>
+      <span class="text-1xl font-bold" style="color: blue;"><span style="color:brown;">${task.name}</span>(<span class="xp">${task.xp}XP</span>, ${task.points} Points)</span>
       <button onclick="completeTask(${index})" class="p-1 bg-green-500 text-white rounded">Complete</button>
     `;
     taskList.appendChild(taskItem);
@@ -200,8 +223,8 @@ function loadProfile() {
   profileName.textContent = userProfile.name;
   profileImage.src = userProfile.photo;
 
-  profileRank.textContent = config.rankingNames[xpData.level - 1] || "Beginner";
-  rankImage.src = config.rankImages[xpData.level] || "assets/rank-beginner.png";
+  profileRank.textContent = config.rankingNames[xpData.level - 1] || "Warrior";
+  rankImage.src = config.rankImages[xpData.level] || "assets/rank-warrior.png";
   
   updateXPBar();
 }
@@ -261,7 +284,9 @@ function completeTask(index) {
   
   pointsData.current += completedTask.points;
   if (pointsData.current > pointsData.total) pointsData.total = pointsData.current;
-  
+
+  MpointsData.current += completedTask.points;
+  if (MpointsData.current > MpointsData.total) MpointsData.total = MpointsData.current;
   
 
   const xpThreshold = config.xpThresholds[xpData.level - 1] || 100;
@@ -280,12 +305,14 @@ function completeTask(index) {
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   localStorage.setItem('xp', JSON.stringify(xpData));
   localStorage.setItem('points', JSON.stringify(pointsData));
+  localStorage.setItem('Mpoints',JSON.stringify(MpointsData));
   console.log(pointsData.current)
 
   loadTasks();
   loadCompletedTasks();
   updateXPBar();
   updatePointsBar();
+  updateMonthlyPointsBar();
   loadProfile();
 }
 
@@ -303,6 +330,10 @@ function undoTask(index) {
   pointsData.current -= task.points || 0;
   if (pointsData.current < 0) pointsData.current = 0;
   localStorage.setItem('points', JSON.stringify(pointsData));
+
+  MpointsData.current -= task.points || 0;
+  if (MpointsData.current < 0) MpointsData.current = 0;
+  localStorage.setItem('Mpoints', JSON.stringify(MpointsData));
   
 
   localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -313,6 +344,7 @@ function undoTask(index) {
   loadCompletedTasks();
   updateXPBar();
   updatePointsBar();
+  updateMonthlyPointsBar();
 }
 
 // Update XP Bar
@@ -342,13 +374,15 @@ function updateXPBar() {
 // Update Points Bar
 function updatePointsBar() {
 
-  pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 100 };
+  pointsData = JSON.parse(localStorage.getItem('points')) || { current: 0, total: 1000 };
  
   const pointsPercentage = (pointsData.current / pointsData.total) * 100;
 
   pointsBar.style.transition = 'width 0.5s ease-in-out';
   pointsBar.style.width = `${pointsPercentage}%`;
   pointsText.textContent = `${pointsData.current} pts`;
+
+ 
 
   if (pointsPercentage >= 75) {
     pointsBar.classList.remove('bg-blue-500', 'bg-yellow-500');
@@ -359,6 +393,29 @@ function updatePointsBar() {
   } else {
     pointsBar.classList.remove('bg-yellow-500', 'bg-green-500');
     pointsBar.classList.add('bg-blue-500');
+  }
+}
+function updateMonthlyPointsBar() {
+
+  MpointsData = JSON.parse(localStorage.getItem('Mpoints')) || { current: 0, total: 3000 };
+ 
+  const MpointsPercentage = (MpointsData.current / MpointsData.total) * 100;
+
+  
+
+  M_pointsBar.style.transition = 'width 0.5s ease-in-out';
+  M_pointsBar.style.width = `${MpointsPercentage}%`;
+  M_pointsText.textContent = `${MpointsData.current} pts`;
+
+  if (MpointsPercentage >= 75) {
+    M_pointsBar.classList.remove('bg-blue-500', 'bg-yellow-500');
+    M_pointsBar.classList.add('bg-green-500');
+  } else if (MpointsPercentage >= 50) {
+    M_pointsBar.classList.remove('bg-blue-500', 'bg-green-500');
+    M_pointsBar.classList.add('bg-yellow-500');
+  } else {
+    M_pointsBar.classList.remove('bg-yellow-500', 'bg-green-500');
+    M_pointsBar.classList.add('bg-blue-500');
   }
   console.log("mine is working")
 }
