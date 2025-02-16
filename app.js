@@ -189,7 +189,7 @@ function loadTasks() {
 
 
     taskItem.innerHTML = `
-      <span class="text-1xl font-bold" style="color: blue;"><span style="color:brown;">${task.name}</span>(<span class="xp">${task.xp}XP</span>, ${task.points} Points)</span>
+      <span class="text-1xl font-bold" style="color: black;"><span style="color:brown;">${task.name}</span>(<span class="xp">${task.xp}XP</span>, ${task.points} Points)</span>
       <button onclick="completeTask(${index})" class="p-1 bg-green-500 text-white rounded">Complete</button>
     `;
     taskList.appendChild(taskItem);
