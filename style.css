@@ -4,7 +4,7 @@ body {
   padding: 0;
   max-height: 100vh;
   font-family: 'Poppins', sans-serif;
-  background-image: url('assets/bodyImage3.jpg');
+  background-image: url('assets/background.jpg');
 }
 
 h1, h2, h3 {
